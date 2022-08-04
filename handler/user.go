@@ -221,19 +221,16 @@ func (h *userhandler) ChangesPassword(c *gin.Context) {
 }
 func (h *userhandler) GetUsers(c *gin.Context) {
 
-	response, user := h.userService.GetUsers()
-	if response.Is_Success == false {
-
-		result := helper.APIResponse(http.StatusBadRequest, false, "false", response)
+	err, user := h.userService.GetUsers()
+	if err != nil {
+		result := helper.APIResponse(http.StatusBadRequest, true, "failed", err)
 		c.JSON(http.StatusBadRequest, result)
-
-		//c.JSON(http.StatusBadRequest, gin.H{
-		//	"errors": response.Message,
-		//})
 		return
 	}
 	//fmt.Println("user :", user)
 
 	result := helper.APIResponse(http.StatusOK, true, "http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
 	c.JSON(http.StatusOK, result)
+
+	//return nil
 }
