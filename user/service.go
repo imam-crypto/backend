@@ -20,7 +20,7 @@ type Service interface {
 	//User(Limit int) (User, error)
 	PaginationUser(c *gin.Context, pagination *helper.Pagination) (helper.Response, error)
 	ChangePassword(ID int, input InputChangesPassword) (User, error)
-	GetUsers() (helper.Response, [][]string)
+	GetUsers() (error, [][]string)
 }
 type service struct {
 	repository Repository
@@ -173,14 +173,18 @@ func (s *service) ChangePassword(ID int, input InputChangesPassword) (User, erro
 	}
 	return change, err
 }
-func (s *service) GetUsers() (helper.Response, [][]string) {
+func (s *service) GetUsers() (error, [][]string) {
 	//var user []User
 	rows := [][]string{}
 	totalUser := s.repository.CountUsers()
 	convert := int(totalUser)
 	fmt.Println(convert)
 	//for i := 1; i <= convert; i++ {
-	users, _ := s.repository.GetUsers()
+	users, err := s.repository.GetUsers()
+
+	if err != nil {
+		return err, nil
+	}
 
 	for _, users := range users {
 
@@ -191,7 +195,7 @@ func (s *service) GetUsers() (helper.Response, [][]string) {
 		rows = append(rows, []string{id, Name, Email})
 	}
 
-	header := []string{"ID", "Name", "Email", "Created_At"}
+	header := []string{"ID", "Name", "Email"}
 	pdf := helper.SetToPDF()
 	pdf = helper.Header(pdf, header)
 	pdf = helper.Table(pdf, rows)
@@ -203,9 +207,12 @@ func (s *service) GetUsers() (helper.Response, [][]string) {
 	//if err != nil {
 	//	return helper.Response{Status: http.StatusOK, Is_Success: true}
 	//}
-
 	//}
 	//fmt.Println(rows)
-	return helper.Response{Status: http.StatusOK, Is_Success: true}, rows
+
+	//result := helper.APIResponse(http.StatusOK, true, "http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
+	//c.JSON(http.StatusOK, result)
+
+	return err, rows
 
 }
