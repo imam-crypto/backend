@@ -125,20 +125,6 @@ func (s *service) UpdateUser(ID int, input EditInput) (User, error) {
 	return UpdatedUser, nil
 }
 
-//
-//func (s *service) User(limit int) (User, error) {
-//
-//	//
-//	//limit, _ := strconv.Atoi(limit)
-//	//offset, _ := strconv.Atoi(pagination.offset)
-//
-//	us, er := s.repository.Pagination(limit)
-//	if er != nil {
-//		return us, er
-//	}
-//	return us, nil
-//}
-
 func (s *service) PaginationUser(c *gin.Context, pagination *helper.Pagination) (helper.Response, error) {
 
 	err, datapaginations, totalPages := s.repository.PaginationUser(pagination)
@@ -204,6 +190,19 @@ func (s *service) GetUsers() (helper.Response, [][]string) {
 		//Created_At := users.CreatedAt.String()
 		rows = append(rows, []string{id, Name, Email})
 	}
+
+	header := []string{"ID", "Name", "Email", "Created_At"}
+	pdf := helper.SetToPDF()
+	pdf = helper.Header(pdf, header)
+	pdf = helper.Table(pdf, rows)
+	helper.SaveFile(pdf)
+	//if pdf.Err() {
+	//	return nil
+	//}
+	//err := helper.SaveFile(pdf)
+	//if err != nil {
+	//	return helper.Response{Status: http.StatusOK, Is_Success: true}
+	//}
 
 	//}
 	//fmt.Println(rows)

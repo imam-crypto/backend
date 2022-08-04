@@ -229,23 +229,6 @@ func (h *userhandler) GetUsers(c *gin.Context) {
 		return
 	}
 	//fmt.Println("user :", user)
-	header := []string{"ID", "Name", "Email", "Created_At"}
-	pdf := helper.SetToPDF()
-	pdf = helper.Header(pdf, header)
-	pdf = helper.Table(pdf, user)
-	if pdf.Err() {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": "error table",
-		})
-		return
-	}
-	err := helper.SaveFile(pdf)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": "error save",
-		})
-		return
-	}
 
 	result := helper.APIResponse(http.StatusOK, true, "http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
 	c.JSON(http.StatusOK, result)
