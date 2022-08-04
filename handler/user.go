@@ -223,15 +223,17 @@ func (h *userhandler) GetUsers(c *gin.Context) {
 
 	response, user := h.userService.GetUsers()
 	if response.Is_Success == false {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": response.Message,
-		})
+
+		result := helper.APIResponse(http.StatusBadRequest, false, "false", response)
+		c.JSON(http.StatusBadRequest, result)
+
+		//c.JSON(http.StatusBadRequest, gin.H{
+		//	"errors": response.Message,
+		//})
 		return
 	}
 	//fmt.Println("user :", user)
 
 	result := helper.APIResponse(http.StatusOK, true, "http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
 	c.JSON(http.StatusOK, result)
-
-	//return nil
 }
