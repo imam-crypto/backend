@@ -4,6 +4,7 @@ import (
 	"backend/auth"
 	"backend/helper"
 	"backend/user"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -229,6 +230,6 @@ func (h *userhandler) GetUsers(c *gin.Context) {
 
 	result := helper.APIResponse(http.StatusOK, true, "link data users :"+" "+"http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
 	c.JSON(http.StatusOK, result)
-
+	fmt.Println("tes branch dev")
 	//return nil
 }
