@@ -5,7 +5,9 @@ import "github.com/jung-kurt/gofpdf"
 func SetToPDF() *gofpdf.Fpdf {
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.AddPage()
-	pdf.SetLeftMargin(31)
+
+	pdf.SetLeftMargin(30)
+
 	pdf.SetFont("Times", "B", 14)
 	pdf.Cell(40, 10, "Data User")
 	pdf.Ln(12)

@@ -181,9 +181,11 @@ func (s *service) GetUsers() (error, [][]string) {
 	fmt.Println(convert)
 	//for i := 1; i <= convert; i++ {
 	users, err := s.repository.GetUsers()
+
 	if err != nil {
 		return err, nil
 	}
+
 	for _, users := range users {
 		id := strconv.Itoa(users.ID)
 		Name := users.Name
@@ -192,7 +194,7 @@ func (s *service) GetUsers() (error, [][]string) {
 		rows = append(rows, []string{id, Name, Email})
 	}
 
-	header := []string{"ID", "Name", "Email", "Created_At"}
+	header := []string{"ID", "Name", "Email"}
 	pdf := helper.SetToPDF()
 	pdf = helper.Header(pdf, header)
 	pdf = helper.Table(pdf, rows)
