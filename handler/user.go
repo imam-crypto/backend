@@ -114,9 +114,7 @@ func (h *userhandler) DeleteUser(c *gin.Context) {
 		return
 	}
 	//formatter := user.FormatUser(deleted)
-
 	response := helper.APIResponse(http.StatusOK, true, "user deleted", nil)
-
 	c.JSON(http.StatusOK, response)
 }
 

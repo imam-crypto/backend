@@ -185,7 +185,6 @@ func (s *service) GetUsers() (error, [][]string) {
 		return err, nil
 	}
 	for _, users := range users {
-
 		id := strconv.Itoa(users.ID)
 		Name := users.Name
 		Email := users.Email
@@ -198,16 +197,7 @@ func (s *service) GetUsers() (error, [][]string) {
 	pdf = helper.Header(pdf, header)
 	pdf = helper.Table(pdf, rows)
 	helper.SaveFile(pdf)
-	//if pdf.Err() {
-	//	return nil
-	//}
-	//err := helper.SaveFile(pdf)
-	//if err != nil {
-	//	return helper.Response{Status: http.StatusOK, Is_Success: true}
-	//}
 
-	//}
-	//fmt.Println(rows)
 	return err, rows
 
 }
