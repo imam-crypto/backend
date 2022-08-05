@@ -229,7 +229,7 @@ func (h *userhandler) GetUsers(c *gin.Context) {
 	}
 	//fmt.Println("user :", user)
 
-	result := helper.APIResponse(http.StatusOK, true, "http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
+	result := helper.APIResponse(http.StatusOK, true, "link data users :"+" "+"http://"+c.Request.Host+"/assets/"+"DataUser.pdf", user)
 	c.JSON(http.StatusOK, result)
 
 	//return nil

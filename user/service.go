@@ -20,7 +20,7 @@ type Service interface {
 	//User(Limit int) (User, error)
 	PaginationUser(c *gin.Context, pagination *helper.Pagination) (helper.Response, error)
 	ChangePassword(ID int, input InputChangesPassword) (User, error)
-	GetUsers() (helper.Response, [][]string)
+	GetUsers() (error, [][]string)
 }
 type service struct {
 	repository Repository
@@ -173,15 +173,17 @@ func (s *service) ChangePassword(ID int, input InputChangesPassword) (User, erro
 	}
 	return change, err
 }
-func (s *service) GetUsers() (helper.Response, [][]string) {
+func (s *service) GetUsers() (error, [][]string) {
 	//var user []User
 	rows := [][]string{}
 	totalUser := s.repository.CountUsers()
 	convert := int(totalUser)
 	fmt.Println(convert)
 	//for i := 1; i <= convert; i++ {
-	users, _ := s.repository.GetUsers()
-
+	users, err := s.repository.GetUsers()
+	if err != nil {
+		return err, nil
+	}
 	for _, users := range users {
 
 		id := strconv.Itoa(users.ID)
@@ -206,6 +208,6 @@ func (s *service) GetUsers() (helper.Response, [][]string) {
 
 	//}
 	//fmt.Println(rows)
-	return helper.Response{Status: http.StatusOK, Is_Success: true}, rows
+	return err, rows
 
 }
